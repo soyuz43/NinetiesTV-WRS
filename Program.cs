@@ -190,32 +190,48 @@ static List<Show> AllButBestDrama(List<Show> shows)
 // 19. Return the number of crime shows with an IMDB rating greater than 7.0.
 static int GoodCrimeShows(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Count(show => show.Genres.Contains("Crime") && show.ImdbRating > 7.0);
 }
 
 // 20. Return the first show that ran for more than 10 years 
 //     with an IMDB rating of less than 8.0 ordered alphabetically.
 static Show FirstLongRunningTopRated(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => (show.EndYear - show.StartYear) > 10 && show.ImdbRating < 8.0)
+        .OrderBy(show => show.Name)
+        .FirstOrDefault();
 }
 
 // 21. Return the show with the most words in the name.
 static Show WordieastName(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .OrderByDescending(show => show.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length)
+        .First();
 }
 
 // 22. Return the names of all shows as a single string seperated by a comma and a space.
 static string AllNamesWithCommas(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return string.Join(", ", shows.Select(show => show.Name));
 }
 
 // 23. Do the same as above, but put the word "and" between the second-to-last and last show name.
 static string AllNamesWithCommasPlsAnd(List<Show> shows)
 {
-    throw new NotImplementedException();
+    var names = shows.Select(show => show.Name).ToList();
+
+    if (names.Count == 0) return "";
+    if (names.Count == 1) return names[0];
+
+    var allButLastTwo = names.Take(names.Count - 2);
+    var lastTwo = names.Skip(names.Count - 2).ToList();
+
+    return string.Join(", ", allButLastTwo)
+        + (allButLastTwo.Any() ? ", " : "")
+        + string.Join(" and ", lastTwo);
 }
 
 
