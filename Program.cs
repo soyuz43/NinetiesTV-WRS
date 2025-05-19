@@ -116,52 +116,75 @@ static List<Show> AllButWorst(List<Show> shows)
 // 11. Return the names of the shows that had fewer than 100 episodes.
 static List<string> FewEpisodes(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => show.EpisodeCount < 100)
+        .Select(show => show.Name)
+        .ToList();
 }
 
 // 12. Return all shows ordered by the number of years on air.
 //     Assume the number of years between the start and end years is the number of years the show was on.
 static List<Show> ShowsByDuration(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .OrderByDescending(show => show.EndYear - show.StartYear)
+        .ToList();
 }
 
 // 13. Return the names of the comedy shows sorted by IMDB rating.
 static List<string> ComediesByRating(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => show.Genres.Contains("Comedy"))
+        .OrderByDescending(show => show.ImdbRating)
+        .Select(show => show.Name)
+        .ToList();
 }
 
 // 14. Return the shows with more than one genre ordered by their starting year.
 static List<Show> WithMultipleGenresByStartYear(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => show.Genres.Count > 1)
+        .OrderBy(show => show.StartYear)
+        .ToList();
 }
 
 // 15. Return the show with the most episodes.
 static Show MostEpisodes(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .OrderByDescending(show => show.EpisodeCount)
+        .First();
 }
 
 // 16. Order the shows by their ending year then return the first 
 //     show that ended on or after the year 2000.
 static Show EndedFirstAfterTheMillennium(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => show.EndYear >= 2000)
+        .OrderBy(show => show.EndYear)
+        .First();
 }
 
 // 17. Order the shows by rating (highest first) 
 //     and return the first show with genre of drama.
 static Show BestDrama(List<Show> shows)
 {
-    throw new NotImplementedException();
+    return shows
+        .Where(show => show.Genres.Contains("Drama"))
+        .OrderByDescending(show => show.ImdbRating)
+        .First();
 }
 
 // 18. Return all dramas except for the highest rated.
 static List<Show> AllButBestDrama(List<Show> shows)
 {
-    throw new NotImplementedException();
+    var bestDrama = BestDrama(shows); // reuse earlier logic
+    return shows
+        .Where(show => show.Genres.Contains("Drama") && show != bestDrama)
+        .ToList();
 }
 
 // 19. Return the number of crime shows with an IMDB rating greater than 7.0.
